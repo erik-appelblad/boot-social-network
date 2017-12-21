@@ -1,4 +1,5 @@
 package se.erikappelblad.controllers;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,86 +18,86 @@ import se.erikappelblad.service.StatusUpdateService;
 @Controller
 public class StatusUpdateController {
 
-	@Autowired
-	private StatusUpdateService statusUpdateService;
+    @Autowired
+    private StatusUpdateService statusUpdateService;
 
-	@RequestMapping(value = "/viewstatus", method = RequestMethod.GET)
-	ModelAndView viewStatus(ModelAndView mav, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
+    @RequestMapping(value = "/viewstatus", method = RequestMethod.GET)
+    ModelAndView viewStatus(ModelAndView mav, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
 
-		Page<StatusUpdate> page = statusUpdateService.getPage(pageNumber);
+        Page<StatusUpdate> page = statusUpdateService.getPage(pageNumber);
 
-		mav.getModel().put("page", page);
+        mav.getModel().put("page", page);
 
-		mav.setViewName("app.viewStatus");
-		return mav;
-	}
+        mav.setViewName("app.viewStatus");
+        return mav;
+    }
 
-	@RequestMapping(value = "/addstatus", method = RequestMethod.GET)
-	ModelAndView addStatus(ModelAndView mav, @ModelAttribute("statusUpdate") StatusUpdate statusUpdate) {
-		mav.setViewName("app.addStatus");
+    @RequestMapping(value = "/addstatus", method = RequestMethod.GET)
+    ModelAndView addStatus(ModelAndView mav, @ModelAttribute("statusUpdate") StatusUpdate statusUpdate) {
+        mav.setViewName("app.addStatus");
 
-		StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
+        StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
 
-		mav.getModel().put("statusUpdate", statusUpdate);
-		mav.getModel().put("latestStatusUpdate", latestStatusUpdate);
+        mav.getModel().put("statusUpdate", statusUpdate);
+        mav.getModel().put("latestStatusUpdate", latestStatusUpdate);
 
-		return mav;
-	}
+        return mav;
+    }
 
-	@RequestMapping(value = "/addstatus", method = RequestMethod.POST)
-	ModelAndView addStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
+    @RequestMapping(value = "/addstatus", method = RequestMethod.POST)
+    ModelAndView addStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
 
-		mav.setViewName("app.addStatus");
+        mav.setViewName("app.addStatus");
 
-		if (!result.hasErrors()) {
-			statusUpdateService.save(statusUpdate);
-			mav.getModel().put("statusUpdate", new StatusUpdate());
-			mav.setViewName("redirect:/viewstatus");
+        if (!result.hasErrors()) {
+            statusUpdateService.save(statusUpdate);
+            mav.getModel().put("statusUpdate", new StatusUpdate());
+            mav.setViewName("redirect:/viewstatus");
 
-		} else {
-			mav.getModel().put("errorTextVisible", "visible");
-		}
+        } else {
+            mav.getModel().put("errorTextVisible", "visible");
+        }
 
-		StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
-		mav.getModel().put("latestStatusUpdate", latestStatusUpdate);
+        StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
+        mav.getModel().put("latestStatusUpdate", latestStatusUpdate);
 
-		return mav;
-	}
-	
-	@RequestMapping(value="/editstatus", method = RequestMethod.GET)
-	ModelAndView editStatus(ModelAndView mav, @RequestParam(name = "id") long id) {
-		
-		StatusUpdate statusUpdate = statusUpdateService.get(id);
-		
-		mav.getModel().put("statusUpdate", statusUpdate);
-		
-		mav.setViewName("app.editStatus");
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/editstatus", method = RequestMethod.POST)
-	ModelAndView editStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
-		
-		mav.setViewName("app.editStatus");
-		
-		if (!result.hasErrors()) {
-			statusUpdateService.save(statusUpdate);
-			mav.setViewName("redirect:/viewstatus");
-		} else {
-			mav.getModel().put("errorTextVisible", "visible");
-		}
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/deletestatus", method = RequestMethod.GET)
-	ModelAndView deleteStatus(ModelAndView mav, @RequestParam(name="id") long id) {
-		
-		statusUpdateService.delete(id);
-		
-		mav.setViewName("redirect:/viewstatus");
-		
-		return mav;
-	}
+        return mav;
+    }
+
+    @RequestMapping(value = "/editstatus", method = RequestMethod.GET)
+    ModelAndView editStatus(ModelAndView mav, @RequestParam(name = "id") long id) {
+
+        StatusUpdate statusUpdate = statusUpdateService.get(id);
+
+        mav.getModel().put("statusUpdate", statusUpdate);
+
+        mav.setViewName("app.editStatus");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/editstatus", method = RequestMethod.POST)
+    ModelAndView editStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
+
+        mav.setViewName("app.editStatus");
+
+        if (!result.hasErrors()) {
+            statusUpdateService.save(statusUpdate);
+            mav.setViewName("redirect:/viewstatus");
+        } else {
+            mav.getModel().put("errorTextVisible", "visible");
+        }
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/deletestatus", method = RequestMethod.GET)
+    ModelAndView deleteStatus(ModelAndView mav, @RequestParam(name = "id") long id) {
+
+        statusUpdateService.delete(id);
+
+        mav.setViewName("redirect:/viewstatus");
+
+        return mav;
+    }
 }

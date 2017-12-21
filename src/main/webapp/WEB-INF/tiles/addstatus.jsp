@@ -46,9 +46,7 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<p>
-					${latestStatusUpdate.text}
-				</p>
+				<p>${latestStatusUpdate.text}</p>
 			</div>
 
 		</div>

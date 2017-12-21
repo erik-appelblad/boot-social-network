@@ -10,23 +10,23 @@ import se.erikappelblad.service.StatusUpdateService;
 
 @Controller
 public class PageController {
-	
-	@Autowired
-	StatusUpdateService statusUpdateService;
 
-	@RequestMapping("/")
-	ModelAndView home(ModelAndView mav) {
-		StatusUpdate statusUpdate = statusUpdateService.getLatest();
-		
-		mav.getModel().put("latestStatusUpdate", statusUpdate);
-		
-		mav.setViewName("app.homepage");
-		return mav;
-	}
+    @Autowired
+    StatusUpdateService statusUpdateService;
 
-	@RequestMapping("/about")
-	String about() {
-		return "app.about";
-	}
+    @RequestMapping("/")
+    ModelAndView home(ModelAndView mav) {
+        StatusUpdate statusUpdate = statusUpdateService.getLatest();
+
+        mav.getModel().put("latestStatusUpdate", statusUpdate);
+
+        mav.setViewName("app.homepage");
+        return mav;
+    }
+
+    @RequestMapping("/about")
+    String about() {
+        return "app.about";
+    }
 
 }

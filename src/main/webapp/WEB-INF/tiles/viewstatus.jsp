@@ -5,18 +5,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tag"%>
 
-<c:url var="url" value="/viewstatus"/>
+<c:url var="url" value="/viewstatus" />
 
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 
-	<tag:pagination page="${page}" url="${url}"/>
-	
+		<tag:pagination page="${page}" url="${url}" />
+
 		<c:forEach var="statusUpdate" items="${ page.content }">
-		
+
 			<c:url var="editLink" value="/editstatus?id=${statusUpdate.id}" />
 			<c:url var="deleteLink" value="/deletestatus?id=${statusUpdate.id}" />
-		
+
 			<div class="panel panel-default">
 
 				<div class="panel-heading">
@@ -27,13 +27,13 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<div>
-						${statusUpdate.text}
-					</div>
+					<div>${statusUpdate.text}</div>
 					<div class="edit-links pull-right">
-						<a href="${editLink}">edit</a> | <a onclick="return confirm('Really delete this status update?');" href="${deleteLink}"> delete</a>
+						<a href="${editLink}">edit</a> | <a
+							onclick="return confirm('Really delete this status update?');"
+							href="${deleteLink}"> delete</a>
 					</div>
-					
+
 				</div>
 
 			</div>

@@ -19,11 +19,7 @@
 							value="${ latestStatusUpdate.added }" />
 					</div>
 				</div>
-				<div class="panel-body">
-
-					${latestStatusUpdate.text}
-
-				</div>
+				<div class="panel-body">${latestStatusUpdate.text}</div>
 			</div>
 		</div>
 	</div>

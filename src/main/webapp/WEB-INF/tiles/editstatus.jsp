@@ -19,14 +19,14 @@
 			</div>
 			<div class="panel-body">
 				<form:form modelAttribute="statusUpdate">
-				
-				<form:input path="id" type="hidden"/>
-				<form:input path="added" type="hidden"/>
-				
+
+					<form:input path="id" type="hidden" />
+					<form:input path="added" type="hidden" />
+
 					<c:if test="${not empty errorTextVisible }">
 						<div class="alert alert-danger">
 							<form:errors path="text" />
-							
+
 						</div>
 					</c:if>
 
@@ -35,7 +35,7 @@
 							class="form-control"></form:textarea>
 					</div>
 
-					<button type="submit" class="btn btn-default" >Save</button>
+					<button type="submit" class="btn btn-default">Save</button>
 				</form:form>
 			</div>
 
