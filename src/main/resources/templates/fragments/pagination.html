@@ -1,0 +1,8 @@
+<div class="pagination" th:fragment="pagination(page)" th:if="${page.totalPages > 1}">
+	<th:block th:each="pageNumber : ${#numbers.sequence(1, page.totalPages)}">
+		<a th:if="${pageNumber != page.number + 1}"
+			th:href="@{/viewstatus(p=${pageNumber})}" th:text="${pageNumber}">1</a>
+		<strong th:if="${pageNumber == page.number + 1}" th:text="${pageNumber}">1</strong>
+		<span th:if="${pageNumber != page.totalPages}">|</span>
+	</th:block>
+</div>

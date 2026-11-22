@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout('Home', ~{::main})}">
+<head>
+<title>Home</title>
+</head>
+<body>
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="page-header">
+						<h1>The Social Network (no PHP)</h1>
+					</div>
+
+					<div class="panel panel-default" th:if="${latestStatusUpdate != null}">
+						<div class="panel-heading">
+							<div class="panel-title"
+								th:text="${#dates.format(latestStatusUpdate.added, 'EEEE d MMMM y ''at'' H:mm:s')}">Date</div>
+						</div>
+						<div class="panel-body" th:text="${latestStatusUpdate.text}">Status update</div>
+					</div>
+
+					<div class="alert alert-info" th:if="${latestStatusUpdate == null}">
+						No status updates yet. <a th:href="@{/addstatus}">Add one</a> to get started.
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
