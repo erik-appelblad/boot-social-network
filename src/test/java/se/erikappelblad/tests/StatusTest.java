@@ -1,78 +1,58 @@
 package se.erikappelblad.tests;
 
-import javax.transaction.Transactional;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Calendar;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import se.erikappelblad.App;
+import jakarta.transaction.Transactional;
 import se.erikappelblad.model.StatusUpdate;
 import se.erikappelblad.model.StatusUpdateDao;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(App.class)
-@WebAppConfiguration
+@SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 public class StatusTest {
-	
-	@Autowired
-	private StatusUpdateDao statusUpdateDao;
-	
-	@Test
-	public void testSave() {
-		StatusUpdate status = new StatusUpdate("This is a test");
 
-		statusUpdateDao.save(status);
-		
-		
-		assertNotNull("Non-null ID", status.getId());
-		assertNotNull("Non-null Date", status.getAdded());
-		
-		StatusUpdate retrieved = statusUpdateDao.findOne(status.getId());
-		assertEquals("Matching Statusupdate", status, retrieved);
-	}
-	
-	
-	@Test
-	public void testFindLatest() {
-		
-		Calendar calendar = Calendar.getInstance();
-		
-		StatusUpdate lastStatusUpdate = null;
-		
-		for (int i = 0; i < 10; i++) {
-			calendar.add(Calendar.DAY_OF_YEAR, 1);
-			StatusUpdate status = new StatusUpdate("Status update " + i, calendar.getTime());
-			
-			statusUpdateDao.save(status);
-			
-			lastStatusUpdate = status;
-		}
-		
-		StatusUpdate retrieved = statusUpdateDao.findFirstByOrderByAddedDesc();
-		
-		assertEquals("Latest status udate", lastStatusUpdate, retrieved);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    @Autowired
+    private StatusUpdateDao statusUpdateDao;
+
+    @Test
+    public void testSave() {
+        StatusUpdate status = new StatusUpdate("This is a test");
+
+        statusUpdateDao.save(status);
+
+        assertNotNull(status.getId(), "Non-null ID");
+        assertNotNull(status.getAdded(), "Non-null Date");
+
+        StatusUpdate retrieved = statusUpdateDao.findById(status.getId()).orElse(null);
+        assertEquals(status, retrieved, "Matching Statusupdate");
+    }
+
+    @Test
+    public void testFindLatest() {
+
+        Calendar calendar = Calendar.getInstance();
+
+        StatusUpdate lastStatusUpdate = null;
+
+        for (int i = 0; i < 10; i++) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            StatusUpdate status = new StatusUpdate("Status update " + i, calendar.getTime());
+
+            statusUpdateDao.save(status);
+
+            lastStatusUpdate = status;
+        }
+
+        StatusUpdate retrieved = statusUpdateDao.findFirstByOrderByAddedDesc();
+
+        assertEquals(lastStatusUpdate, retrieved, "Latest status udate");
+    }
 }

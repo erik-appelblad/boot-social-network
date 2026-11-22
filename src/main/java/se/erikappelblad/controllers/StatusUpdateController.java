@@ -1,6 +1,6 @@
 package se.erikappelblad.controllers;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,13 +28,13 @@ public class StatusUpdateController {
 
         mav.getModel().put("page", page);
 
-        mav.setViewName("app.viewStatus");
+        mav.setViewName("viewstatus");
         return mav;
     }
 
     @RequestMapping(value = "/addstatus", method = RequestMethod.GET)
     ModelAndView addStatus(ModelAndView mav, @ModelAttribute("statusUpdate") StatusUpdate statusUpdate) {
-        mav.setViewName("app.addStatus");
+        mav.setViewName("addstatus");
 
         StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
 
@@ -45,9 +45,10 @@ public class StatusUpdateController {
     }
 
     @RequestMapping(value = "/addstatus", method = RequestMethod.POST)
-    ModelAndView addStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
+    ModelAndView addStatus(ModelAndView mav, @ModelAttribute("statusUpdate") @Valid StatusUpdate statusUpdate,
+            BindingResult result) {
 
-        mav.setViewName("app.addStatus");
+        mav.setViewName("addstatus");
 
         if (!result.hasErrors()) {
             statusUpdateService.save(statusUpdate);
@@ -71,15 +72,16 @@ public class StatusUpdateController {
 
         mav.getModel().put("statusUpdate", statusUpdate);
 
-        mav.setViewName("app.editStatus");
+        mav.setViewName("editstatus");
 
         return mav;
     }
 
     @RequestMapping(value = "/editstatus", method = RequestMethod.POST)
-    ModelAndView editStatus(ModelAndView mav, @Valid StatusUpdate statusUpdate, BindingResult result) {
+    ModelAndView editStatus(ModelAndView mav, @ModelAttribute("statusUpdate") @Valid StatusUpdate statusUpdate,
+            BindingResult result) {
 
-        mav.setViewName("app.editStatus");
+        mav.setViewName("editstatus");
 
         if (!result.hasErrors()) {
             statusUpdateService.save(statusUpdate);
@@ -97,7 +99,6 @@ public class StatusUpdateController {
         statusUpdateService.delete(id);
 
         mav.setViewName("redirect:/viewstatus");
-
         return mav;
     }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout('Add a status update', ~{::main})}">
+<head>
+<title>Add a status update</title>
+</head>
+<body>
+	<main>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							<h1>Add a status update</h1>
+						</div>
+					</div>
+					<div class="panel-body">
+						<form th:action="@{/addstatus}" th:object="${statusUpdate}" method="post">
+							<div class="alert alert-danger" th:if="${#fields.hasErrors('text')}">
+								<span th:errors="*{text}">Error</span>
+							</div>
+
+							<div class="form-group">
+								<textarea th:field="*{text}" rows="10" cols="50"
+									class="form-control"></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-default">Submit</button>
+						</form>
+					</div>
+				</div>
+
+				<div class="panel panel-default" th:if="${latestStatusUpdate != null}">
+					<div class="panel-heading">
+						<div class="panel-title"
+							th:text="${#dates.format(latestStatusUpdate.added, 'EEEE d MMMM y ''at'' H:mm:s')}">Date</div>
+					</div>
+					<div class="panel-body">
+						<p th:text="${latestStatusUpdate.text}">Status update</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</main>
+</body>
+</html>

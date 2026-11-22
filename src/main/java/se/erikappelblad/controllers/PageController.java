@@ -20,13 +20,13 @@ public class PageController {
 
         mav.getModel().put("latestStatusUpdate", statusUpdate);
 
-        mav.setViewName("app.homepage");
+        mav.setViewName("home");
         return mav;
     }
 
     @RequestMapping("/about")
     String about() {
-        return "app.about";
+        return "about";
     }
 
 }

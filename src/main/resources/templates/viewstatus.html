@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout('Status updates', ~{::main})}">
+<head>
+<title>Status updates</title>
+</head>
+<body>
+	<main>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+
+				<div th:replace="~{fragments/pagination :: pagination(${page})}"></div>
+
+				<div class="panel panel-default" th:each="statusUpdate : ${page.content}">
+					<div class="panel-heading">
+						<div class="panel-title"
+							th:text="${#dates.format(statusUpdate.added, 'EEEE d MMMM y ''at'' H:mm:s')}">Date</div>
+					</div>
+					<div class="panel-body">
+						<div th:text="${statusUpdate.text}">Status update</div>
+						<div class="edit-links pull-right">
+							<a th:href="@{/editstatus(id=${statusUpdate.id})}">edit</a> |
+							<a th:href="@{/deletestatus(id=${statusUpdate.id})}"
+								onclick="return confirm('Really delete this status update?');">delete</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="alert alert-info" th:if="${page.empty}">
+					No status updates yet. <a th:href="@{/addstatus}">Add one</a> to get started.
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
